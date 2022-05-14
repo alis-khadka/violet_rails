@@ -1,0 +1,27 @@
+.page-header
+  .h3
+    Event Type:
+    %strong #{params[:ahoy_event_type].titleize}
+%main{class: 'm-5'}
+  %h4
+    Event Details:
+
+  %li
+    %strong
+      Total events:
+    = @events.size
+
+  - if params[:ahoy_event_type] == 'comfy-cms-page-update'
+    = 'test1'
+  - elsif params[:ahoy_event_type] == 'comfy-cms-page-visit'
+    = 'test2'
+  - elsif params[:ahoy_event_type] == 'comfy-file-update'
+    = 'test3'
+  - elsif params[:ahoy_event_type] == 'comfy-user-update'
+    = 'test4'
+  - elsif params[:ahoy_event_type] == 'email-visit'
+    = 'test5'
+  - elsif params[:ahoy_event_type] == 'forum-post-update'
+    = 'test6'
+  - elsif params[:ahoy_event_type] == 'forum-thread-visit'
+    = 'test7'

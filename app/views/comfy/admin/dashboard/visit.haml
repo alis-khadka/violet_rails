@@ -24,5 +24,5 @@
     %thead
       - event_names.each do |event_name|
         %tr
-          %td= event_name.titleize
+          %td= link_to event_name.titleize, events_detail_url(@visit.id, event_name)
           %td= "#{@events.where(name: event_name).size} times"
