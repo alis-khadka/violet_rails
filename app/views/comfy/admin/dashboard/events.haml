@@ -11,6 +11,39 @@
       Total events:
     = @events.size
 
+  .row.align-items-center.justify-content-center.text-center
+    .col-12.my-5
+      %h5 Grouped by date
+      .d-flex.justify-content-center.align-items-center
+        = line_chart @events.group_by_day(:time).count, label: "No. of page visits", xtitle: "Number of Visits", ytitle: "Days"
+    .col-12.my-5
+      %h5 Grouped by country
+      .d-flex.justify-content-center.align-items-center
+        = #geo_chart @visits.group(:country).count, label: "visits"
+    .col-12.my-5
+      %ul{class: "list-group}
+        - events_with_page_details = @events
+      <ul class="list-group">
+        <li class="list-group-item disabled">Cras justo odio</li>
+        <li class="list-group-item">Dapibus ac facilisis in</li>
+        <li class="list-group-item">Morbi leo risus</li>
+        <li class="list-group-item">Porta ac consectetur ac</li>
+        <li class="list-group-item">Vestibulum at eros</li>
+      </ul>
+      .row
+        .mx-5.my-3
+          %p By device type
+          = #pie_chart @visits.where.not(device_type: nil).group(:device_type).count, width: "300px", height: "300px", label: "visits"
+        .mx-5.my-3
+          %p By OS
+          = #pie_chart @visits.where.not(os: nil).group(:os).count, width: "300px", height: "300px", label: "visits"
+        .mx-5.my-3
+          %p By browser
+          = #pie_chart @visits.where.not(browser: nil).group(:browser).count, width: "300px", height: "300px", label: "visits"
+        .mx-5.my-3
+          %p By referring domain
+          = #pie_chart @visits.where.not(referring_domain: nil).group(:referring_domain).count, width: "300px", height: "300px", label: "visits"
+
   - if params[:ahoy_event_type] == 'comfy-cms-page-update'
     = 'test1'
   - elsif params[:ahoy_event_type] == 'comfy-cms-page-visit'
