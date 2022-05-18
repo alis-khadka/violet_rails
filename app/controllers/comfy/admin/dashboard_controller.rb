@@ -2,7 +2,7 @@ require 'will_paginate/array'
 
 class Comfy::Admin::DashboardController < Comfy::Admin::Cms::BaseController
   before_action :ensure_authority_to_manage_web
-  before_action :set_visit, only: [:visit, :events_detail]
+  before_action :set_visit, only: [:visit]
   def dashboard
     params[:q] ||= {}
     @visits_q = Subdomain.current.ahoy_visits.ransack(params[:q])

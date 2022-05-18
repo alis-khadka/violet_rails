@@ -1,3 +1,5 @@
 class ContentController < ApplicationController
-  before_action :track_ahoy_visit, raise: false
+  include AhoyVisitData
+
+  before_action :track_or_create_ahoy_visit, raise: false
 end
