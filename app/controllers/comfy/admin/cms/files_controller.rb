@@ -6,8 +6,9 @@ class Comfy::Admin::Cms::FilesController < Comfy::Admin::Cms::BaseController
   self.reorder_action_resource = ::Comfy::Cms::File
 
   include ActionView::Helpers::NumberHelper
+  include AhoyVisitData
 
-  before_action :track_ahoy_visit,   only: %i[update], raise: false
+  before_action :track_or_create_ahoy_visit,   only: %i[update], raise: false
   before_action :build_file,  only: %i[new create]
   before_action :load_file,   only: %i[edit update destroy]
   before_action :authorize

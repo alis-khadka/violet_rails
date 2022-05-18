@@ -3,9 +3,10 @@
 class Comfy::Admin::Cms::PagesController < Comfy::Admin::Cms::BaseController
 
   include ::Comfy::ReorderAction
+  include AhoyVisitData
   self.reorder_action_resource = ::Comfy::Cms::Page
 
-  before_action :track_ahoy_visit,  only: %i[update], raise: false
+  before_action :track_or_create_ahoy_visit,  only: %i[update], raise: false
   before_action :check_for_layouts, only: %i[new edit]
   before_action :build_page,        only: %i[new create]
   before_action :load_page,         only: %i[edit update destroy]

@@ -1,5 +1,7 @@
 class Mailbox::MessageThreadsController < Mailbox::BaseController
-  before_action :track_ahoy_visit,  only: %i[show], raise: false
+  include AhoyVisitData
+
+  before_action :track_or_create_ahoy_visit,  only: %i[show], raise: false
   before_action :load_thread, except: [:new, :create]
 
   def show
