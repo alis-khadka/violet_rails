@@ -9,8 +9,6 @@
   -# this is a hack until I figure out how to get chartkick working without importing the whole application js pack
   - if controller_name == 'dashboard'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
-  - else
-    = javascript_pack_tag 'ahoy'
 
   = render 'layouts/comfy/admin/cms/head'
   = render 'layouts/comfy/admin/cms/body'

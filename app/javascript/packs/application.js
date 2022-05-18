@@ -10,7 +10,9 @@ import "channels"
 import "bootstrap"
 import "chartkick/chart.js"
 
+import ahoy from "ahoy.js";
 import ctaSuccessHandler from "./website/call_to_actions"
+window.ahoy = ahoy;
 window.ctaSuccessHandler = ctaSuccessHandler
 
 Rails.start()
@@ -21,4 +23,3 @@ require("jquery")
 require("./trix")
 require("./select2")
 require("./common")
-require("./ahoy")
