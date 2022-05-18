@@ -1,0 +1,23 @@
+.page-header
+  .h3
+    Events list
+
+%main{class: 'm-5'}
+  %h5
+    Total type of events:
+    %span.font-weight-bold
+      = @events_list.total_entries
+  .table-responsive.my-5
+    = render partial: 'shared/pagination_array', locals: { data: @events_list, model_name: 'Event' }
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th= "Events"
+          %th= "Total count of specific event"
+      %thead
+        - @events_list.each do |event_name|
+          %tr
+            %td= link_to event_name, dashboard_events_path(ahoy_event_type: event_name)
+            %td= @events_count[event_name]
+
+    = render partial: 'shared/pagination_array', locals: { data: @events_list, model_name: 'Event' }

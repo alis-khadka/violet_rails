@@ -1,7 +1,10 @@
 = javascript_include_tag "//www.google.com/jsapi"
 .page-header
-  .h2
-    Visitor Analytics
+  .d-flex.my-2.justify-content-between.align-items-center
+    .h2.mb-0
+      Visitor Analytics
+    = link_to 'See All Events', dashboard_events_list_path, role: 'button', class: 'btn btn-primary'
+
 %main{class: 'my-5'}
   %h3
     Visits

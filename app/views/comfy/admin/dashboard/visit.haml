@@ -1,6 +1,4 @@
-%br
-%br
-.table-responsive
+.table-responsive.my-5
   %table.table.table-bordered
     %thead
       %tr
@@ -13,16 +11,16 @@
             %td= @visit[attr].strftime('%b %d, %Y %I:%M %P')
           - else
             %td= @visit[attr].presence || 'N/A'
-%br
-%br
-.table-responsive
+
+.table-responsive.my-5
+  = render partial: 'comfy/admin/dashboard/pagination', locals: { data: @visit_specific_events }
   %table.table.table-bordered
     %thead
       %tr
-        %th{colspan: 2} Events (#{@events.count})
-    - event_names = @events.pluck(:name).uniq.sort
+        %th Events (#{@visit_specific_events.count})
     %thead
-      - event_names.each do |event_name|
+      - @visit_specific_events.each do |event|
         %tr
-          %td= link_to event_name.titleize, events_detail_url(@visit.id, event_name)
-          %td= "#{@events.where(name: event_name).size} times"
+          %td= link_to event.name, dashboard_events_path(ahoy_event_type: event.name)
+
+  = render partial: 'comfy/admin/dashboard/pagination', locals: { data: @visit_specific_events }

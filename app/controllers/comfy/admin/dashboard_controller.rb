@@ -1,6 +1,8 @@
+require 'will_paginate/array'
+
 class Comfy::Admin::DashboardController < Comfy::Admin::Cms::BaseController
   before_action :ensure_authority_to_manage_web
-  before_action :set_visit, only: [:visit, :events]
+  before_action :set_visit, only: [:visit, :events_detail]
   def dashboard
     params[:q] ||= {}
     @visits_q = Subdomain.current.ahoy_visits.ransack(params[:q])
@@ -8,11 +10,18 @@ class Comfy::Admin::DashboardController < Comfy::Admin::Cms::BaseController
   end
 
   def visit
-    @events = Ahoy::Event.where(visit_id: @visit.id)
+    @visit_specific_events_q = Ahoy::Event.where(visit_id: @visit.id).ransack(params[:q])
+    @visit_specific_events = @visit_specific_events_q.result.paginate(page: params[:page], per_page: 10)
   end
 
-  def events
-    @events = @visit.events.where(name: params[:ahoy_event_type])
+  def events_detail
+    @events_q = Ahoy::Event.where(name: params[:ahoy_event_type]).joins(:visit).ransack(params[:q])
+    @events = @events_q.result.paginate(page: params[:page], per_page: 10)
+  end
+
+  def events_list
+    @events_count = Ahoy::Event.group(:name).count
+    @events_list = Ahoy::Event.distinct(:name).pluck(:name).sort.paginate(page: params[:page], per_page: 10)
   end
 
   private
