@@ -20,8 +20,8 @@ class Comfy::Admin::DashboardController < Comfy::Admin::Cms::BaseController
   end
 
   def events_list
-    @events_count = Ahoy::Event.group(:name).count
-    @events_list = Ahoy::Event.distinct(:name).pluck(:name).sort.paginate(page: params[:page], per_page: 10)
+    @events_list_q = Ahoy::Event.group(:name).select("DISTINCT(name) AS distinct_name", "MIN(time) AS first_created_at", "MIN(id) AS id", "COUNT(name) AS count").order(:name).ransack(params[:q])
+    @events_list = @events_list_q.result.paginate(page: params[:page], per_page: 10)
   end
 
   private
