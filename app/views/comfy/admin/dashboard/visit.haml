@@ -29,7 +29,9 @@
       %thead
         - @visit_specific_events.each do |event|
           %tr
-            %td= (link_to(event.name, dashboard_events_path(ahoy_event_type: event.name)).to_s + " (#{event_name_detail(event)})").html_safe
+            - event_detail = event_name_detail(event)
+            - event_detail = event_detail.present? ? " (#{event_detail})" : ''
+            %td= (link_to(event.name, dashboard_events_path(ahoy_event_type: event.name)).to_s + event_detail).html_safe
             %td= event.time.strftime('%F %T')
 
     = render partial: 'comfy/admin/dashboard/pagination', locals: { data: @visit_specific_events }
