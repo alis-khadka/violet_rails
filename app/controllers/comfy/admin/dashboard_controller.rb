@@ -17,6 +17,9 @@ class Comfy::Admin::DashboardController < Comfy::Admin::Cms::BaseController
   def events_detail
     @events_q = Ahoy::Event.where(name: params[:ahoy_event_type]).joins(:visit).ransack(params[:q])
     @events = @events_q.result.paginate(page: params[:page], per_page: 10)
+
+    @event_visits_s = Ahoy::Visit.where(id: @events_q.result.pluck(:visit_id).uniq).ransack(params[:s], search_key: :s)
+    @event_visits = @event_visits_s.result.paginate(page: params[:page], per_page: 10)
   end
 
   def events_list

@@ -47,3 +47,35 @@
         .mx-5.my-3
           %p By referring domain
           = pie_chart @events.where.not('ahoy_visits.referring_domain': nil).group('ahoy_visits.referring_domain').count, width: "300px", height: "300px", label: "events"
+
+  = render partial: 'comfy/admin/dashboard/pagination', locals: { data: @event_visits }
+  .table-responsive
+    %table.table.table-bordered
+      %thead
+        %tr
+          %th= sort_link @event_visits_s, :started_at
+          %th= sort_link @event_visits_s, :ip
+          %th= sort_link @event_visits_s, :os
+          %th= sort_link @event_visits_s, :browser
+          %th= sort_link @event_visits_s, :device_type
+          %th= sort_link @event_visits_s, :country
+          %th= sort_link @event_visits_s, :region
+          %th= sort_link @event_visits_s, :city
+          %th= sort_link @event_visits_s, :referring_domain
+          %th= sort_link @event_visits_s, :landing_page
+          %th= sort_link @event_visits_s, :user_agent
+        - @event_visits.each do |v|
+          %tr
+            %th= link_to v.started_at.strftime('%I:%M %P - %b %d, %Y'), dashboard_visits_path(ahoy_visit_id: v.id)
+            %th= v.ip
+            %th= v.os
+            %th= v.browser
+            %th= v.device_type
+            %th= v.country
+            %th= v.region
+            %th= v.city
+            %th= redact_private_urls(v.referring_domain)
+            %th= redact_private_urls(v.landing_page)
+            %th= v.user_agent
+    = render partial: 'comfy/admin/dashboard/pagination', locals: { data: @event_visits }
+
