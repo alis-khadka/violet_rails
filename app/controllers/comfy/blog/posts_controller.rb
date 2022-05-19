@@ -4,9 +4,6 @@ class Comfy::Blog::PostsController < Comfy::Cms::BaseController
   before_action :redirect_if_blog_disabled
 
   include Comfy::Paginate
-  include AhoyVisitData
-
-  before_action :track_or_create_ahoy_visit,  only: %i[show], raise: false
 
   def index
     scope =

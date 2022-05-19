@@ -1,8 +1,6 @@
 class Comfy::Admin::UsersController < Comfy::Admin::Cms::BaseController
-  include AhoyVisitData
-
   layout "comfy/admin/cms"
-  before_action :track_or_create_ahoy_visit,  only: %i[update], raise: false
+  before_action :track_ahoy_visit,  only: %i[update], raise: false
   before_action :load_user, only: [:edit, :update, :destroy]
   before_action :ensure_authority_to_manage_users
 

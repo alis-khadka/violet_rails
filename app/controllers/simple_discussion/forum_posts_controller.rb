@@ -1,8 +1,5 @@
 class SimpleDiscussion::ForumPostsController < SimpleDiscussion::ApplicationController
-  include AhoyVisitData
-
   before_action :authenticate_user!
-  before_action :track_or_create_ahoy_visit,  only: %i[update], raise: false
   before_action :set_forum_thread
   before_action :set_forum_post, only: [:edit, :update, :destroy]
   before_action :require_mod_or_author_for_post!, only: [:edit, :update, :destroy]
