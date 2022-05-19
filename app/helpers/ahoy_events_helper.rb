@@ -6,8 +6,9 @@ module AhoyEventsHelper
       comfy_blog_post_path(year: blog_post.year, month: blog_post.month, slug: blog_post.slug)
     elsif Ahoy::Event::SYSTEM_EVENTS[event.name] == Ahoy::Event::SYSTEM_EVENTS['comfy-cms-page-update']
       page = Comfy::Cms::Page.find(event.properties['page_id'])
+      page_info = page.full_path == '/' ? 'root' : page.full_path
 
-      page.full_path
+      page_info
     elsif Ahoy::Event::SYSTEM_EVENTS[event.name] == Ahoy::Event::SYSTEM_EVENTS['comfy-cms-page-visit']
       page = Comfy::Cms::Page.find(event.properties['comfy_cms_page_id'])
       page_info = page.full_path == '/' ? 'root' : page.full_path
