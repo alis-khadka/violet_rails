@@ -1,6 +1,8 @@
 class Ahoy::Event < ApplicationRecord
   include Ahoy::QueryMethods
 
+  SYSTEM_EVENTS = { 'comfy-blog-page-visit'=> 0, 'comfy-cms-page-update'=> 1, 'comfy-cms-page-visit'=> 2, 'comfy-file-update'=> 3, 'comfy-user-update'=> 4, 'email-visit'=> 5, 'forum-post-update'=> 6, 'forum-thread-visit'=> 7 }
+
   self.table_name = "ahoy_events"
 
   belongs_to :visit
