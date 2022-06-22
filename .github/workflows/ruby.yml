@@ -65,7 +65,7 @@ jobs:
         tmpfile=$(mktemp)
         cp ./db/schema.rb tmpfile
     - name: Check rails version
-      run: rails -v
+      run: bin/rails -v
     - name: Setup main DB
       run: |
         bin/rails db:create --trace
