@@ -65,7 +65,7 @@ jobs:
         cp ./db/schema.rb tmpfile
     - name: Setup main DB
       run: |
-        bin/rails db:create
+        bin/rails db:create --trace
         bin/rails db:migrate --trace
     - name: Comparing schema.rb to db/migrations
       run: |
