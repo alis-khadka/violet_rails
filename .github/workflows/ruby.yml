@@ -31,6 +31,7 @@ jobs:
     strategy:
       matrix:
         node_version: [14.x, 10.x]
+        ruby_version: [2.6.6, 3.0.0]
     steps:
     - name: Configure sysctl limits
       run: |
@@ -45,12 +46,13 @@ jobs:
     - uses: actions/checkout@v2
     - name: Set Environment Variables
       run: cat ci_env.cfg >> $GITHUB_ENV
-    - name: Setup Ruby
+    - name: Violet Rails Build (Ruby ${{ matrix.ruby_version }})
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.6.6 # Not needed with a .ruby-version file but it's good to be clear here
+        ruby-version: ${{ matrix.ruby_version }} # Not needed with a .ruby-version file (2.6.6) but it's good to be clear here
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
     - uses: actions/setup-node@v2
+      name: Violet Rails Build (Node.js ${{ matrix.node_version }})
       with:
         node-version: ${{ matrix.node_version }}
     - name: Fetch schema file before running migration
