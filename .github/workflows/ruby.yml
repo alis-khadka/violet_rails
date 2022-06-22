@@ -35,7 +35,7 @@ jobs:
     strategy:
       matrix:
         node_version: [14.x, 10.x]
-        ruby_version: [2.6.6]
+        ruby_version: [2.6.6, 3.0.0]
     steps:
     - name: Configure sysctl limits
       run: |
@@ -64,6 +64,8 @@ jobs:
       run: |
         tmpfile=$(mktemp)
         cp ./db/schema.rb tmpfile
+    - name: Check rails version
+      run: rails -v
     - name: Setup main DB
       run: |
         bin/rails db:create --trace
