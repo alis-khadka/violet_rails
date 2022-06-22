@@ -52,6 +52,8 @@ jobs:
       with:
         ruby-version: ${{ matrix.ruby_version }} # Not needed with a .ruby-version file (2.6.6) but it's good to be clear here
         bundler-cache: true # runs 'bundle install' and caches installed gems automatically
+      env:
+        RUBY_BUILD: ${{ matrix.ruby_version }}
     - uses: actions/setup-node@v2
       with:
         node-version: ${{ matrix.node_version }}
