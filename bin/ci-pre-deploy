@@ -1,0 +1,4 @@
+#!/bin/sh -l
+if [ "$IS_REVIEW_APP" = "true" ]; then
+  echo "Testing pre deploy command"
+fi
