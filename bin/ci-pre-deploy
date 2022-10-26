@@ -2,16 +2,7 @@
 if [ "$IS_REVIEW_APP" = "true" ]; then
   REVIEW_APP_DB_NAME="${APP_NAME}-db"
   MAIN_APP_DB_NAME="violet-rails-db"
-  echo "$REVIEW_APP_DB_NAME"
-  echo "$MAIN_APP_DB_NAME"
-  echo "$SSH_REMOTE"
-  echo "$(parse-ssh-host)"
 
-  # ssh $SSH_REMOTE 'dokku postgres:exists "$REVIEW_APP_DB_NAME" || dokku postgres:clone "$MAIN_APP_DB_NAME" "$REVIEW_APP_DB_NAME"'
-  # ssh $SSH_REMOTE 'dokku postgres:linked "$REVIEW_APP_DB_NAME" "$APP_NAME" || (dokku postgres:link "$REVIEW_APP_DB_NAME" "$REVIEW_APP_NAME" && dokku postgres:promote "$REVIEW_APP_DB_NAME" "$REVIEW_APP_NAME" && dokku postgres:unlink "$MAIN_APP_DB_NAME" "$REVIEW_APP_NAME")'
-  # ssh $SSH_REMOTE 'dokku apps:list'
-  # ssh $SSH_REMOTE "postgres:exists \"$REVIEW_APP_DB_NAME\" || dokku postgres:clone \"$MAIN_APP_DB_NAME\" \"$REVIEW_APP_DB_NAME\""
-  # ssh "$SSH_REMOTE" -- postgres:exists "$REVIEW_APP_DB_NAME" || postgres:clone "$MAIN_APP_DB_NAME" "$REVIEW_APP_DB_NAME"
   ssh "ubuntu@$(parse-ssh-host)" "
   dokku postgres:exists $REVIEW_APP_DB_NAME || dokku postgres:clone $MAIN_APP_DB_NAME $REVIEW_APP_DB_NAME
   dokku postgres:linked $REVIEW_APP_DB_NAME $APP_NAME || (dokku postgres:link $REVIEW_APP_DB_NAME $REVIEW_APP_NAME && dokku postgres:promote $REVIEW_APP_DB_NAME $REVIEW_APP_NAME && dokku postgres:unlink $MAIN_APP_DB_NAME $REVIEW_APP_NAME)
