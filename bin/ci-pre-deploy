@@ -1,6 +1,14 @@
 #!/bin/sh -l
 if [ "$IS_REVIEW_APP" = "true" ]; then
-  echo "$APP_NAME"
-  echo "$REVIEW_APP_NAME"
-  echo "Testing pre deploy command"
+  REVIEW_APP_DB_NAME="${REVIEW_APP_NAME}-db"
+  MAIN_APP_DB_NAME="violet-rails-db"
+  echo "$REVIEW_APP_DB_NAME"
+  echo "$MAIN_APP_DB_NAME"
+
+  ssh "$SSH_REMOTE" '
+  dokku postgres:exists "$REVIEW_APP_DB_NAME" || dokku postgres:clone "$MAIN_APP_DB_NAME" "$REVIEW_APP_DB_NAME"
+  dokku postgres:linked "$REVIEW_APP_DB_NAME" "$REVIEW_APP_NAME" || dokku postgres:link "$REVIEW_APP_DB_NAME" "$REVIEW_APP_NAME"
+  '
+
+  echo "${REVIEW_APP_DB_NAME} linked to review-app: ${REVIEW_APP_NAME}"
 fi

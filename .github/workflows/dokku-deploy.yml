@@ -89,3 +89,13 @@ jobs:
           ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
           ssh_host_key: ${{ secrets.DOKKU_SSH_HOST_KEY }}
           git_push_flags: '--force'
+
+      - name: Destroy review-app-db
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.DOKKU_HOST }}
+          key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
+          username: ubuntu
+          script: dokku postgres:exists review-${{ github.event.pull_request.number }}-db && dokku postgres:destroy review-${{ github.event.pull_request.number }}-db -f
+
+
