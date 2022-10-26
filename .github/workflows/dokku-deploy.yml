@@ -53,6 +53,15 @@ jobs:
           key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
           username: ubuntu
           script: dokku letsencrypt:active review-${{ github.event.pull_request.number }} || dokku letsencrypt:enable review-${{ github.event.pull_request.number }}
+
+      - name: Add deployed review-app link in PR comment
+        uses: mshick/add-pr-comment@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          message: |
+            Deployed review-app can be viewed at [https://review-${{ github.event.pull_request.number }}.violet-test.net](https://review-${{ github.event.pull_request.number }}.violet-test.net)
+          allow-repeats: true
   
   checklabel:
     runs-on: ubuntu-latest
