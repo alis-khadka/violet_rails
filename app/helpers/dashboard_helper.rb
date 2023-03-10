@@ -122,6 +122,32 @@ module DashboardHelper
       end
   end
 
+  def event_title(event_category)
+    case event_category
+    when Ahoy::Event::EVENT_CATEGORIES[:click]
+      'Clicks'
+    when Ahoy::Event::EVENT_CATEGORIES[:form_submit]
+      'Form Submissions'
+    when Ahoy::Event::EVENT_CATEGORIES[:section_view]
+      'Section Views'
+    when 'system_events'
+      'Events'
+    end
+  end
+
+  def event_types(event_category)
+    case event_category
+    when Ahoy::Event::EVENT_CATEGORIES[:click]
+      'clickables'
+    when Ahoy::Event::EVENT_CATEGORIES[:form_submit]
+      'submitables'
+    when Ahoy::Event::EVENT_CATEGORIES[:section_view]
+      'viewables'
+    when 'system_events'
+      'events'
+    end
+  end
+
   private
   def split_into(start_date, end_date)
     time_in_days = (end_date - start_date).to_i
