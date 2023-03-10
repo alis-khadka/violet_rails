@@ -4,30 +4,46 @@ class Comfy::Admin::V2::DashboardController < Comfy::Admin::Cms::BaseController
   before_action :ensure_authority_to_manage_analytics
 
   def dashboard
-    @start_date = params[:start_date]&.to_date || Date.today.beginning_of_month
-    @end_date = params[:end_date]&.to_date || Date.today.end_of_month
-    date_range = @start_date.beginning_of_day..@end_date.end_of_day
-
-    @visits = Ahoy::Visit.where(started_at: @start_date.beginning_of_day..@end_date.end_of_day)
-
-    Ahoy::Event::EVENT_CATEGORIES.values.each do |event_category|
-      if event_category == Ahoy::Event::EVENT_CATEGORIES[:page_visit]
-        events = Ahoy::Event.where(name: 'comfy-cms-page-visit').joins(:visit)
-      else
-        events = Ahoy::Event.jsonb_search(:properties, { category: event_category }).joins(:visit)
-      end
-      events = events.jsonb_search(:properties, { page_id: params[:page] }) if params[:page].present?
-      instance_variable_set("@previous_period_#{event_category}_events", events.where(time: previous_period(params[:interval], @start_date, @end_date)))
-      instance_variable_set("@#{event_category}_events", events.where(time: date_range))
-    end
-
-    # legacy and system events does not have category 
-    # separating out 'comfy-cms-page-visit' event since we have a seprate section
-    @legacy_and_system_events = Ahoy::Event.where.not('properties::jsonb ? :key', key: 'category').where.not(name: 'comfy-cms-page-visit').joins(:visit)
-    @previous_period_legacy_and_system_events = @legacy_and_system_events.where(time: previous_period(params[:interval], @start_date, @end_date))
-    @legacy_and_system_events = @legacy_and_system_events.where(time: date_range)
+    @start_date = params[:start_date]
+    @end_date = params[:end_date]
+    @interval = params[:interval]
+    @page = params[:page]
   end
 
+  def event_analytics
+    @start_date = params[:start_date]&.to_date || Date.today.beginning_of_month
+    @end_date = params[:end_date]&.to_date || Date.today.end_of_month
+    @event_category = params[:event_category]
+    date_range = @start_date.beginning_of_day..@end_date.end_of_day
+
+    if @event_category === 'system_events'
+      # legacy and system events does not have category 
+      # separating out 'comfy-cms-page-visit' event since we have a seprate section
+      events = Ahoy::Event.joins(:visit).where.not('properties::jsonb ? :key', key: 'category').where.not(name: 'comfy-cms-page-visit')
+    else
+      if @event_category == Ahoy::Event::EVENT_CATEGORIES[:page_visit]
+        events = Ahoy::Event.joins(:visit).where(name: 'comfy-cms-page-visit')
+      else
+        events = Ahoy::Event.joins(:visit).jsonb_search(:properties, { category: @event_category })
+      end
+
+      events = events.jsonb_search(:properties, { page_id: params[:page] }) if params[:page].present?
+    end
+
+    @current_period_events = events.where(time: date_range)
+    @previous_period_events = events.where(time: previous_period(params[:interval], @start_date, @end_date))
+
+    render partial: 'event_analytics', locals: {
+      events_exists: @current_period_events.load.any?,
+      events_count: @current_period_events.size,
+      label_grouped_event: @current_period_events.with_label.group(:label).pluck(:label, Arel.sql('json_agg(ahoy_events.name)')),
+      previous_period_events_count: @previous_period_events.size,
+      previous_grouped_events: @previous_period_events.with_label.group(:label).size,
+      event_category: @event_category,
+      current_period_events: @current_period_events,
+      previous_period_events: @previous_period_events
+    }
+  end
 
   private
 
