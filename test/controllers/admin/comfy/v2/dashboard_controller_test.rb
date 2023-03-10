@@ -94,7 +94,7 @@ class Comfy::Admin::V2::DashboardControllerTest < ActionDispatch::IntegrationTes
     assert_equal [video_watch_event_2.id], assigns(:previous_period_video_view_events).pluck(:id)
   end
 
-  test "#dashboard: should show pie-chart data and last time-period comparision correctly" do
+  test "#event_analytics: should show pie-chart data and last time-period comparision correctly for page-visit events" do
     @subdomain.update!(tracking_enabled: true)
     
     recurring_visit = Ahoy::Visit.first
@@ -122,7 +122,7 @@ class Comfy::Admin::V2::DashboardControllerTest < ActionDispatch::IntegrationTes
     @user.update(can_manage_analytics: true)
     sign_in(@user)  
 
-    get v2_dashboard_url
+    get v2_event_analytics_url, params: { event_category: Ahoy::Event::EVENT_CATEGORIES[:page_visit] }
 
     # default range should be current month and previous period should be last month
     assert_equal Date.today.beginning_of_month, assigns(:start_date)

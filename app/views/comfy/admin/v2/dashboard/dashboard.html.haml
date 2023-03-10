@@ -21,25 +21,25 @@
               %i.fa.fa-caret-down.ml-2
 
   %main{class: 'my-5'}
-    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:page_visit], src: event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:page_visit], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
+    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:page_visit], src: v2_event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:page_visit], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
       = "Loading...."
   
     %hr.m-0
-    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:click], src: event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:click], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
+    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:click], src: v2_event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:click], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
       = "Loading...."
 
     %hr.m-0
-    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:video_view], src: event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:video_view], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
+    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:video_view], src: v2_event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:video_view], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
       = "Loading...."
         
     %hr.m-0
-    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:form_submit], src: event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:form_submit], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
+    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:form_submit], src: v2_event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:form_submit], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
       = "Loading...."
 
     %hr.m-0
-    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:section_view], src: event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:section_view], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
+    = turbo_frame_tag Ahoy::Event::EVENT_CATEGORIES[:section_view], src: v2_event_analytics_path(event_category: Ahoy::Event::EVENT_CATEGORIES[:section_view], start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
       = "Loading...."
 
     %hr.m-0
-    = turbo_frame_tag 'system_events', src: event_analytics_path(event_category: 'system_events', start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
+    = turbo_frame_tag 'system_events', src: v2_event_analytics_path(event_category: 'system_events', start_date: @start_date, end_date: @end_date, page: params[:page], interval: params[:interval]), loading: :eager do
       = "Loading...."
